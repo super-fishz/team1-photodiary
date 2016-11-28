@@ -1,5 +1,7 @@
 .python-version
-photodiary/photodiray/__pycache__/
+photodiary/photodiary/__pycache__/
+db.sqlite3
+
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
