@@ -1,5 +1,5 @@
 .python-version
--
+photodiary/photodiray/__pycache__/
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
