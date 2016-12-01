@@ -15,9 +15,8 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from .views import *
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^member/', include('member.urls', namespace='member')),
-    url(r'^photo/', include('photo.urls', namespace='photo'))
+    url(r'^user/', UserList.as_view())
 ]
