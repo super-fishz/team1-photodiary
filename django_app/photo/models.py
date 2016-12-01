@@ -9,3 +9,4 @@ class Photo(models.Model):
     modified_date = models.DateTimeField(auto_now=True)
     created_date = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to='photo/photo', blank=False)
+    post = models.ManyToManyField('photo.Photo')
