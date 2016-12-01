@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'storages',
     'member',
     'photo',
+    'post',
     'rest_framework',
 ]
 
