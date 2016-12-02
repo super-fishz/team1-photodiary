@@ -18,5 +18,5 @@ from django.contrib import admin
 from .views import *
 
 urlpatterns = [
-    url(r'^user/', UserList.as_view())
+    url(r'^user/', UserList.as_view()),
 ]

@@ -1,4 +1,8 @@
+
+from django.contrib.auth import authenticate, get_user_model
 from rest_framework.serializers import ModelSerializer
+from rest_framework import serializers, exceptions
+from rest_auth.serializers import LoginSerializer
 from .models import MyUser
 
 
@@ -18,4 +22,3 @@ class MyUserserializer(ModelSerializer):
             password=password
         )
         return user
-
