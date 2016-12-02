@@ -29,7 +29,7 @@ STATIC_ROOT = os.path.join(ROOT_DIR, 'static_root')
 SECRET_KEY = '0evi3yah))cipdsq-9y-ys109yyzjmlgo_p9&dtzj)*5v!$9o%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 # DEBUG = (len(sys.argv) > 1 and sys.argv[1] == 'runserver')
          # or sys.argv[1] == 'makemigrations' or sys.argv[1] == 'migrate' )
 
