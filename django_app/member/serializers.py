@@ -9,7 +9,7 @@ from .models import MyUser
 class MyUserserializer(ModelSerializer):
     class Meta:
         model = MyUser
-        fields = ('username', 'email', 'password', 'date_joined')
+        fields = ('username', 'email', 'password', 'date_joined', 'pk')
         write_only_fields = ('password',)
 
 

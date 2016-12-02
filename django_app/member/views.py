@@ -1,14 +1,19 @@
-from rest_auth.app_settings import create_token
-from rest_auth.models import TokenModel
-from rest_auth.views import LoginView
-from rest_framework.generics import GenericAPIView
-from rest_framework.permissions import AllowAny
-
-from .models import MyUser
-from .serializers import *
+from django.http import HttpResponse
 from rest_framework import generics
+from rest_framework.views import APIView
+from rest_framework.response import Response
+
+from .serializers import *
 
 
 class UserList(generics.ListCreateAPIView):
     queryset = MyUser.objects.all()
     serializer_class = MyUserserializer
+
+
+
+class CurrentUserDetail(APIView):
+    def get(self, request):
+        user = self.request.user
+        serializer = MyUserserializer(user)
+        return Response(serializer.data)
