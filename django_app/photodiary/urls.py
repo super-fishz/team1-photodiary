@@ -21,6 +21,5 @@ urlpatterns = [
     url(r'^member/', include('member.urls', namespace='member')),
     url(r'^photo/', include('photo.urls', namespace='photo')),
     url(r'^post/', include('post.urls', namespace='post')),
-    url(r'^rest-auth/', include('rest_auth.urls'))
 
 ]
