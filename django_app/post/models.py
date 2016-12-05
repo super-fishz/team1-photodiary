@@ -5,7 +5,7 @@ from django.db import models
 class Post(models.Model):
     title = models.CharField(max_length=50)
     content = models.TextField(max_length=200, blank=True)
-    author = models.ForeignKey('member.MyUser')
+    author = models.ForeignKey('member.MyUser', null=True)
     modified_date = models.DateTimeField(auto_now=True)
     created_date = models.DateTimeField(auto_now_add=True)
 
@@ -13,7 +13,7 @@ class Post(models.Model):
         return self.title
 
 class Photo(models.Model):
-    author = models.ForeignKey('member.MyUser')
+    author = models.ForeignKey('member.MyUser', null=True)
     modified_date = models.DateTimeField(auto_now=True)
     created_date = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to='photo/photo', blank=False)

@@ -10,7 +10,6 @@ class Postserializer(ModelSerializer):
                   'modified_date', 'created_date')
 
 
-
 class Photoserializer(ModelSerializer):
     class Meta:
         model = Photo
