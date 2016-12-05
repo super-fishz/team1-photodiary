@@ -9,3 +9,5 @@ class Post(models.Model):
     modified_date = models.DateTimeField(auto_now=True)
     created_date = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return self.title

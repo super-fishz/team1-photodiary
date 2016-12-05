@@ -11,6 +11,5 @@ class Photo(models.Model):
     image = models.ImageField(upload_to='photo/photo', blank=False)
     post = models.ForeignKey('photo.Photo')
 
-
     def __str__(self):
         return self.title

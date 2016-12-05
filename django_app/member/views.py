@@ -11,9 +11,9 @@ class UserList(generics.ListCreateAPIView):
     serializer_class = MyUserserializer
 
 
-
 class CurrentUserDetail(APIView):
     def get(self, request):
         user = self.request.user
         serializer = MyUserserializer(user)
         return Response(serializer.data)
+
