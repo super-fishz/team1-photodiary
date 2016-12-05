@@ -4,6 +4,7 @@
 .idea/
 .ebignore
 .django-conf/
+migrations/
 ### Django ###
 *.log
 *.pot
