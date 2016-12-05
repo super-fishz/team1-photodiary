@@ -5,6 +5,7 @@
 .ebignore
 .django-conf/
 migrations/
+settings.py
 ### Django ###
 *.log
 *.pot
