@@ -19,4 +19,4 @@ class Photo(models.Model):
     post = models.ForeignKey(Post, null=True)
 
     def __str__(self):
-        return '%s 의 사진' % self.post.title
+        return 'POST(%s) - PHOTO(%s)' % (self.post.pk, self.pk)
