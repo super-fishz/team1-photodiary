@@ -52,7 +52,7 @@ password
 ---
 ### 로그인
 : 로그인 후 해당 유저의 토큰을 반환합니다.
-<http://127.0.0.1:8000/member/auth/login/>
+<http://photodiary-dev.ap-northeast-2.elasticbeanstalk.com/member/auth/login/>
 
 - POST 요청시
 
