@@ -11,3 +11,13 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+class Photo(models.Model):
+    author = models.ForeignKey('member.MyUser')
+    modified_date = models.DateTimeField(auto_now=True)
+    created_date = models.DateTimeField(auto_now_add=True)
+    image = models.ImageField(upload_to='photo/photo', blank=False)
+    post = models.ForeignKey(Post)
+
+    def __str__(self):
+        return self.title

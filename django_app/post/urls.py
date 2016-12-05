@@ -18,5 +18,6 @@ from django.contrib import admin
 from .views import *
 
 urlpatterns = [
-    url(r'^', PostList.as_view()),
+    url(r'^post/', PostList.as_view()),
+    url(r'^photo', PhotoList.as_view()),
 ]
