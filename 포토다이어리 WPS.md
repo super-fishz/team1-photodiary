@@ -36,8 +36,10 @@
 
 입력해야 하는 필드 키 이름
 >username
-email
-password
+
+>email
+
+>password
 
 결과값 예시
 ~~~
@@ -52,12 +54,14 @@ password
 ---
 ### 로그인
 : 로그인 후 해당 유저의 토큰을 반환합니다.
+
 <http://photodiary-dev.ap-northeast-2.elasticbeanstalk.com/member/auth/login/>
 
 - POST 요청시
 
 입력해야하는 필드 키 이름
 >email
+
 >password
 
 결과값 예시
@@ -66,6 +70,7 @@ password
 ```
 ## 글 관련
 : 로그인한 해당 유저의 글 목록과 해당 글에 포함되어있는 사진의 url을 볼 수 있습니다.
+
 <http://photodiary-dev.ap-northeast-2.elasticbeanstalk.com/post/post/>
 
 ---
@@ -130,9 +135,13 @@ author에는 해당 유저의 pk값이 들어가는데 추후 조금 더 직관�
 
 입력해야하는 필드 키 이름
 >title
+
 >content
+
 >image
+
 >image
+
 >...
 
 이미지 필드에는 실제 사진 파일이 들어갑니다.
