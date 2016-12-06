@@ -1,13 +1,19 @@
 from rest_framework.serializers import ModelSerializer
 from .models import Post, Photo
+from versatileimagefield.serializers import VersatileImageFieldSerializer
 
 
 class PhotoSerializer(ModelSerializer):
+    image = VersatileImageFieldSerializer(
+        sizes=[
+            ('full_size', 'url'), ('medium_square_crop', 'crop__400x400'),
+        ]
+    )
 
     class Meta:
         model = Photo
-        fields = ('image', 'modified_date', 'created_date', 'id')
-        # fields = '__all__'
+        # fields = ('image', 'modified_date', 'created_date', 'image')
+        fields = '__all__'
 
 
 class PostSerializer(ModelSerializer):
