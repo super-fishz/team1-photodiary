@@ -1,6 +1,6 @@
 from versatileimagefield.fields import VersatileImageField
 from django.db import models
-# Create your models here.
+
 
 class Post(models.Model):
     title = models.CharField(max_length=50)
@@ -8,8 +8,10 @@ class Post(models.Model):
     author = models.ForeignKey('member.MyUser', null=True)
     modified_date = models.DateTimeField(auto_now=True)
     created_date = models.DateTimeField(auto_now_add=True)
+
     def __str__(self):
         return self.title
+
 
 class Photo(models.Model):
     modified_date = models.DateTimeField(auto_now=True)
@@ -18,4 +20,4 @@ class Photo(models.Model):
     post = models.ForeignKey(Post, null=True)
 
     def __str__(self):
-        return self.author
+        return 'POST(%s) - PHOTO(%s)' % (self.post.pk, self.pk)

@@ -17,9 +17,14 @@ import json
 import sys
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-ROOT_DIR = os.path.dirname(BASE_DIR)
-CONF_DIR = os.path.join(ROOT_DIR, '.django-conf')
-STATIC_ROOT = os.path.join(ROOT_DIR, 'static_root')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
+MEDIA_URL = '/media/'
+
+
+# ROOT_DIR = os.path.dirname(BASE_DIR)
+# CONF_DIR = os.path.join(ROOT_DIR, '.django-conf')
+# STATIC_ROOT = os.path.join(ROOT_DIR, 'static_root')
 
 
 # Quick-start development settings - unsuitable for production
@@ -35,10 +40,10 @@ DEBUG = True
 
 
 # 디버그 여부에 따라 config 파일 다르게 불러오기
-if DEBUG:
-    config = json.loads(open(os.path.join(CONF_DIR, 'settings_debug.json')).read())
-else:
-    config = json.loads(open(os.path.join(CONF_DIR, 'settings_deploy.json')).read())
+# if DEBUG:
+#     config = json.loads(open(os.path.join(CONF_DIR, 'settings_debug.json')).read())
+# else:
+#     config = json.loads(open(os.path.join(CONF_DIR, 'settings_deploy.json')).read())
 
 ALLOWED_HOSTS = [
     '.elasticbeanstalk.com',
@@ -99,15 +104,22 @@ WSGI_APPLICATION = 'photodiary.wsgi.application'
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
 
-if DEBUG:
-    DATABASES = {
+# if DEBUG:
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.sqlite3',
+#             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#         }
+#     }
+# else:
+#     DATABASES = config['databases']
+
+DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         }
     }
-else:
-    DATABASES = config['databases']
 
 
 # Password validation
@@ -159,6 +171,26 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 
+<<<<<<< HEAD
+STATIC_URL = '/static/'
+
+# AWS_HEADERS = {
+#     'Expires': 'Thu, 31 Dec 2199 20:00:00 GMT',
+#     'Cache-Control': 'max-age=94608000',
+# }
+# AWS_STORAGE_BUCKET_NAME = config['aws']['AWS_STORAGE_BUCKET_NAME']
+# AWS_ACCESS_KEY_ID = config['aws']['AWS_ACCESS_KEY_ID']
+# AWS_SECRET_ACCESS_KEY = config['aws']['AWS_SECRET_ACCESS_KEY']
+# AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+#
+# STATICFILES_LOCATION = 'static'
+# STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, STATICFILES_LOCATION)
+# STATICFILES_STORAGE = 'post.custom_storages.StaticStorage'
+#
+# MEDIAFILES_LOCATION = 'media'
+# MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, MEDIAFILES_LOCATION)
+# DEFAULT_FILE_STORAGE = 'post.custom_storages.MediaStorage'
+=======
 
 
 AWS_HEADERS = {
@@ -224,3 +256,4 @@ VERSATILEIMAGEFIELD_SETTINGS = {
     # here: https://optimus.io/support/progressive-jpeg/
     'progressive_jpeg': False
 }
+>>>>>>> bd02bb84a8629f1adaf849fad0da8c5d9543a962
