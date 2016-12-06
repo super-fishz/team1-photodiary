@@ -10,7 +10,6 @@ class PostList(generics.ListCreateAPIView):
     serializer_class = Postserializer
 
     def get_queryset(self):
-        # print(Photo.objects.get(po지금 현재 불러오려고 하는 포스트의 pkst=))
         return self.request.user.post_set.all()
 
     def create(self, request, *args, **kwargs):

@@ -1,5 +1,5 @@
+from versatileimagefield.fields import VersatileImageField
 from django.db import models
-
 # Create your models here.
 
 class Post(models.Model):
@@ -14,7 +14,7 @@ class Post(models.Model):
 class Photo(models.Model):
     modified_date = models.DateTimeField(auto_now=True)
     created_date = models.DateTimeField(auto_now_add=True)
-    image = models.ImageField(upload_to='photo/photo', blank=False)
+    image = VersatileImageField('image', upload_to='photo/photo', blank=False)
     post = models.ForeignKey(Post, null=True)
 
     def __str__(self):
