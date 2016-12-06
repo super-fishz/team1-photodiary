@@ -171,7 +171,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 
-<<<<<<< HEAD
 STATIC_URL = '/static/'
 
 # AWS_HEADERS = {
@@ -190,27 +189,6 @@ STATIC_URL = '/static/'
 # MEDIAFILES_LOCATION = 'media'
 # MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, MEDIAFILES_LOCATION)
 # DEFAULT_FILE_STORAGE = 'post.custom_storages.MediaStorage'
-=======
-
-
-AWS_HEADERS = {
-    'Expires': 'Thu, 31 Dec 2199 20:00:00 GMT',
-    'Cache-Control': 'max-age=94608000',
-}
-AWS_STORAGE_BUCKET_NAME = config['aws']['AWS_STORAGE_BUCKET_NAME']
-AWS_ACCESS_KEY_ID = config['aws']['AWS_ACCESS_KEY_ID']
-AWS_SECRET_ACCESS_KEY = config['aws']['AWS_SECRET_ACCESS_KEY']
-AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
-
-STATICFILES_LOCATION = 'static'
-STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, STATICFILES_LOCATION)
-STATICFILES_STORAGE = 'post.custom_storages.StaticStorage'
-
-MEDIAFILES_LOCATION = 'media'
-MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, MEDIAFILES_LOCATION)
-DEFAULT_FILE_STORAGE = 'post.custom_storages.MediaStorage'
-
-
 
 
 
@@ -256,4 +234,3 @@ VERSATILEIMAGEFIELD_SETTINGS = {
     # here: https://optimus.io/support/progressive-jpeg/
     'progressive_jpeg': False
 }
->>>>>>> bd02bb84a8629f1adaf849fad0da8c5d9543a962

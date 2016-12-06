@@ -1,3 +1,5 @@
+import json
+
 from django.http import Http404
 from rest_framework import generics
 from rest_framework import status
@@ -59,23 +61,19 @@ class PostDetail(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class PhotoList(generics.ListCreateAPIView):
-    serializer_class = PhotoSerializer
-    queryset = {'post', 'image'}
-
-
 class PhotoDetail(APIView):
 
     def get_object(self, pk):
         try:
-            return Photo.objects.get(pk=pk)
-        except Photo.DoesNotExist:
+            return Post.objects.get(pk=pk)
+        except Post.DoesNotExist:
             raise Http404
 
     def get(self, request, pk, format=None):
-        photo = self.get_object(pk)
-        serializer = PhotoSerializer(photo)
-        return Response(serializer.data)
+        post = self.get_object(pk)
+        post_serializer = PostSerializer(post)
+        photo_serializer = post_serializer.data['photos']
+        return Response(photo_serializer)
 
     def put(self, request, pk, format=None):
         photo = self.get_object(pk)
