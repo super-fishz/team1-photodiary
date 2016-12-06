@@ -3,7 +3,6 @@
 #custom
 .idea/
 .ebignore
-migrations
 .django-conf/
 ### Django ###
 *.log

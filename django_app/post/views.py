@@ -10,19 +10,13 @@ class PostList(generics.ListCreateAPIView):
     serializer_class = Postserializer
 
     def get_queryset(self):
-        print('*************')
-        print(self.request.user.post_set.all())
-        # print(Photo.objects.get(po지금 현재 불러오려고 하는 포스트의 pkst=))
         return self.request.user.post_set.all()
 
     def create(self, request, *args, **kwargs):
-        print(request.FILES)
-
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         post = serializer.save(author=request.user)
         for file in request.FILES.getlist('image'):
-            print(file)
             Photo.objects.create(
                 post=post,
                 image=file
