@@ -22,10 +22,12 @@ class PostList(generics.ListCreateAPIView):
             Photo.objects.create(post=post, image=file)
         return Response(serializer.data)
 
-
+from .permision import Isthatyours
 class PostDetail(APIView):
+    permission_classes = (Isthatyours,)
 
     def get_object(self, pk):
+
         try:
             return Post.objects.get(pk=pk)
         except Post.DoesNotExist:
