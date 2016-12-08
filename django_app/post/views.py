@@ -73,11 +73,12 @@ class Post_title_search(APIView):
         print('-' * 29)
         all_queryset = self.request.user.post_set.all()
         all_post_list = list(all_queryset.values())
-        print(len(all_post_list))
-        pop_title = all_post_list[0].pop('title')
-        pop_post_id = all_post_list[0].pop('id')
-        print(pop_title)
-        print(pop_post_id)
+        for number in range(0, len(all_post_list)):
+            pop_title = all_post_list[number].pop('title')
+            pop_post_id = all_post_list[number].pop('id')
+            title_id_dict = {}
+            title_id_dict[pop_post_id] = pop_title
+            print(title_id_dict)
 
         print('-' * 29)
 
