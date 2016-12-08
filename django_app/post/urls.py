@@ -22,4 +22,5 @@ urlpatterns = [
     url(r'^(?P<post_pk>[0-9]+)/$', PostDetail.as_view()),
     url(r'^(?P<post_pk>[0-9]+)/photo/$', PhotoDetail.as_view()),
     url(r'^(?P<post_pk>[0-9]+)/photo/(?P<photo_pk>[0-9]+)$', PhotoDetail.as_view()),
+    url(r'^search/', Post_title_search.as_view()),
 ]
