@@ -30,19 +30,19 @@ class PostList(generics.ListCreateAPIView):
 
 class PostDetail(APIView):
 
-    def get_object(self, pk):
+    def get_object(self, post_pk):
         try:
-            return Post.objects.get(pk=pk)
+            return Post.objects.get(pk=post_pk)
         except Post.DoesNotExist:
             raise Http404
 
-    def get(self, request, pk, format=None):
-        post = self.get_object(pk)
+    def get(self, request, post_pk, format=None):
+        post = self.get_object(post_pk)
         serializer = PostSerializer(post)
         return Response(serializer.data)
 
-    def put(self, request, pk, format=None):
-        post = self.get_object(pk)
+    def put(self, request, post_pk, format=None):
+        post = self.get_object(post_pk)
         origin_serializer = PostSerializer(post)
         origin_title = origin_serializer.data['title']
         modify_serializer = PostSerializer(post, data=request.data)
@@ -58,37 +58,37 @@ class PostDetail(APIView):
         else:
             return Response(modify_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, pk, format=None):
-        post = self.get_object(pk)
+    def delete(self, request, post_pk, format=None):
+        post = self.get_object(post_pk)
         post.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class PhotoDetail(APIView):
 
-    def get_post_object(self, pk):
+    def get_post_object(self, post_pk):
         try:
-            return Post.objects.get(pk=pk)
+            return Post.objects.get(pk=post_pk)
         except Post.DoesNotExist:
             raise Http404
 
-    def get(self, request, pk, format=None):
-        post = self.get_post_object(pk)
+    def get(self, request, post_pk, format=None):
+        post = self.get_post_object(post_pk)
         post_serializer = PostSerializer(post)
         post_photo_list = post_serializer.data['photos']
         return Response(post_photo_list)
 
-    def put(self, request, pk, format=None):
-        photo = self.get_post_object(pk)
+    def put(self, request, post_pk, format=None):
+        photo = self.get_post_object(post_pk)
         serializer = PhotoSerializer(photo, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, pk, format=None):
-        post = self.get_post_object(pk)
-
+    def delete(self, request, post_pk, format=None):
+        post = self.get_post_object(post_pk)
         photos = post.photo_set.all()
         photos.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+

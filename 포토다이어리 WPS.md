@@ -11,6 +11,7 @@
 - GET 요청시 유저 리스트를 반환합니다.
 
 결과값 예시
+
 ~~~
 [
   {
@@ -29,8 +30,6 @@
   }
 ]
 ~~~
-
-
 - POST 요청시 해당 유저를 만들고 해당 유저 정보를 보냅니다.
 
 
@@ -71,7 +70,7 @@
 ## 글 관련
 : 로그인한 해당 유저의 글 목록과 해당 글에 포함되어있는 사진의 url을 볼 수 있습니다.
 
-<http://photodiary-dev.ap-northeast-2.elasticbeanstalk.com/post/post/>
+<http://photodiary-dev.ap-northeast-2.elasticbeanstalk.com/post/>
 
 ---
 
@@ -86,6 +85,7 @@
 - GET 요청시 해당 유저의 글 리스트들과 해당 글의 포토들이 반환됩니다.
 
 결과값 예시
+
 ~~~
 [
   {
@@ -128,6 +128,7 @@
   }
 ]
 ~~~
+
 author에는 해당 유저의 pk값이 들어가는데 추후 조금 더 직관적으로 나오도록 바꾸겠습니다.
 
 
@@ -177,4 +178,80 @@ author에는 해당 유저의 pk값이 들어가는데 추후 조금 더 직관�
   ]
 }
 ~~~
+
+- GET 요청시 해당 pk값의 글과 사진데이터를 가져옴.
+
+<http://photodiary-dev.ap-northeast-2.elasticbeanstalk.com/post/post-pk>
+(post-pk 값에 가져올 글의 pk값을 입력)
+
+~~~
+{
+  "id": 12,
+  "photos": [],
+  "title": "12번째제목",
+  "content": "12세번째내용",
+  "modified_date": "2016-12-06T18:58:56.189932Z",
+  "created_date": "2016-12-06T18:58:56.189972Z",
+  "author": 1
+}
+~~~
+위의 결과는 post-pk 값에 12를 입력한 결과
+
+- 위와 같은 URL로 'PUT' 요청시 입력할 key값과 data를 적어 보내면 글 내용을 수정할수 있음
+
+> title 열두번째제목수정
+
+> content 열두번째내용수정
+
+~~~
+{
+  "id": 12,
+  "photos": [],
+  "title": "열두번째제목수정",
+  "content": "열두번째내용수정",
+  "modified_date": "2016-12-08T09:15:43.396939Z",
+  "created_date": "2016-12-06T18:58:56.189972Z",
+  "author": 1
+}
+~~~
+
+
+- 위와 같은 URL로 'DELETE' 요청시 해당 pk값의 글과 사진데이터를 삭제함.
+
+
+## 사진 관련
+: 로그인한 해당 유저의 사진들을 볼 수 있습니다.
+
+- GET 요청시 해당 post-pk값의 글의 사진들을 볼수 있다.
+
+<http://photodiary-dev.ap-northeast-2.elasticbeanstalk.com/post/post-pk/photo>
+
+~~~
+[
+  {
+    "image": {
+      "full_size": "/media/photo/images-5_tqRWwMK.jpg",
+      "medium_square_crop": "/media/__sized__/photo/images-5_tqRWwMK-crop-c0-5__0-5-400x400-70.jpg"
+    },
+    "post": 6,
+    "id": 9
+  },
+  {
+    "image": {
+      "full_size": "/media/photo/images_VHkRCJ5.jpg",
+      "medium_square_crop": "/media/__sized__/photo/images_VHkRCJ5-crop-c0-5__0-5-400x400-70.jpg"
+    },
+    "post": 6,
+    "id": 10
+  }
+]
+~~~
+
+위의 예시는 post-pk 값에 6 을 대입한 결과
+
+- DELETE 요청시 해당 post-pk값의 글의 사진들을 삭제할수 있다.
+
+
+
+
 
