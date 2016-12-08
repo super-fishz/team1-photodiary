@@ -16,7 +16,7 @@ class Post(models.Model):
 class Photo(models.Model):
     modified_date = models.DateTimeField(auto_now=True)
     created_date = models.DateTimeField(auto_now_add=True)
-    image = VersatileImageField('image', upload_to='photo/photo', blank=False)
+    image = VersatileImageField('image', upload_to='photo', blank=False)
     post = models.ForeignKey(Post, null=True)
 
     def __str__(self):
