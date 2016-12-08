@@ -89,47 +89,60 @@
 ~~~
 [
   {
-    "title": "업로드 테스트****",
-    "author": 2,
-    "content": "업로드 테스트****",
-    "modified_date": "2016-12-05T16:36:44.566548Z",
-    "created_date": "2016-12-05T16:36:44.566581Z",
+    "id": 21,
     "photos": [
       {
-        "image": "https://team1-photodiary.s3.amazonaws.com/media/photo/photo/9.jpg",
-        "modified_date": "2016-12-05T16:36:44.605183Z",
-        "created_date": "2016-12-05T16:36:44.605217Z"
+        "image": {
+          "medium_square_crop": "https://team1-photodiary.s3.amazonaws.com/media/__sized__/photo/1-crop-c0-5__0-5-400x400-70.jpg",
+          "full_size": "https://team1-photodiary.s3.amazonaws.com/media/photo/1.jpg"
+        },
+        "post_id": 21,
+        "photo_id": 35
       },
       {
-        "image": "https://team1-photodiary.s3.amazonaws.com/media/photo/photo/1.jpg",
-        "modified_date": "2016-12-05T16:36:46.031145Z",
-        "created_date": "2016-12-05T16:36:46.031193Z"
+        "image": {
+          "medium_square_crop": "https://team1-photodiary.s3.amazonaws.com/media/__sized__/photo/9-crop-c0-5__0-5-400x400-70.jpg",
+          "full_size": "https://team1-photodiary.s3.amazonaws.com/media/photo/9.jpg"
+        },
+        "post_id": 21,
+        "photo_id": 36
       }
-    ]
+    ],
+    "author": "test",
+    "title": "짜장면먹고싶다",
+    "content": "오늘날씨좋다",
+    "modified_date": "2016-12-08T11:58:49.706930Z",
+    "created_date": "2016-12-08T11:58:49.706990Z"
   },
   {
-    "title": "업로드 테스트****",
-    "author": 2,
-    "content": "업로드 테스트****",
-    "modified_date": "2016-12-05T16:36:54.173100Z",
-    "created_date": "2016-12-05T16:36:54.173136Z",
+    "id": 22,
     "photos": [
       {
-        "image": "https://team1-photodiary.s3.amazonaws.com/media/photo/photo/7.jpg",
-        "modified_date": "2016-12-05T16:36:54.177514Z",
-        "created_date": "2016-12-05T16:36:54.177540Z"
+        "image": {
+          "medium_square_crop": "https://team1-photodiary.s3.amazonaws.com/media/__sized__/photo/1-crop-c0-5__0-5-400x400-70.jpg",
+          "full_size": "https://team1-photodiary.s3.amazonaws.com/media/photo/1.jpg"
+        },
+        "post_id": 22,
+        "photo_id": 37
       },
       {
-        "image": "https://team1-photodiary.s3.amazonaws.com/media/photo/photo/2.jpg",
-        "modified_date": "2016-12-05T16:36:55.800728Z",
-        "created_date": "2016-12-05T16:36:55.800767Z"
+        "image": {
+          "medium_square_crop": "https://team1-photodiary.s3.amazonaws.com/media/__sized__/photo/7-crop-c0-5__0-5-400x400-70.jpg",
+          "full_size": "https://team1-photodiary.s3.amazonaws.com/media/photo/7.jpg"
+        },
+        "post_id": 22,
+        "photo_id": 38
       }
-    ]
+    ],
+    "author": "test",
+    "title": "유라유",
+    "content": "라유라",
+    "modified_date": "2016-12-08T11:59:07.994107Z",
+    "created_date": "2016-12-08T11:59:07.994167Z"
   }
 ]
 ~~~
 
-author에는 해당 유저의 pk값이 들어가는데 추후 조금 더 직관적으로 나오도록 바꾸겠습니다.
 
 
 - POST 요청시 올린 글과 그 글의 사진들의 URL를 반환합니다.
@@ -154,28 +167,30 @@ author에는 해당 유저의 pk값이 들어가는데 추후 조금 더 직관�
 
 ~~~
 {
-  "title": "업로드 테스트****",
-  "author": 2,
-  "content": "업로드 테스트****",
-  "modified_date": "2016-12-05T16:54:13.123386Z",
-  "created_date": "2016-12-05T16:54:13.123422Z",
+  "id": 23,
   "photos": [
     {
-      "image": "https://team1-photodiary.s3.amazonaws.com/media/photo/photo/7.jpg",
-      "modified_date": "2016-12-05T16:54:13.131410Z",
-      "created_date": "2016-12-05T16:54:13.131436Z"
+      "image": {
+        "medium_square_crop": "https://team1-photodiary.s3.amazonaws.com/media/__sized__/photo/1-crop-c0-5__0-5-400x400-70.jpg",
+        "full_size": "https://team1-photodiary.s3.amazonaws.com/media/photo/1.jpg"
+      },
+      "post_id": 23,
+      "photo_id": 39
     },
     {
-      "image": "https://team1-photodiary.s3.amazonaws.com/media/photo/photo/2.jpg",
-      "modified_date": "2016-12-05T16:54:15.022858Z",
-      "created_date": "2016-12-05T16:54:15.022894Z"
-    },
-    {
-      "image": "https://team1-photodiary.s3.amazonaws.com/media/photo/photo/1.jpg",
-      "modified_date": "2016-12-05T16:54:16.842548Z",
-      "created_date": "2016-12-05T16:54:16.842583Z"
+      "image": {
+        "medium_square_crop": "https://team1-photodiary.s3.amazonaws.com/media/__sized__/photo/7-crop-c0-5__0-5-400x400-70.jpg",
+        "full_size": "https://team1-photodiary.s3.amazonaws.com/media/photo/7.jpg"
+      },
+      "post_id": 23,
+      "photo_id": 40
     }
-  ]
+  ],
+  "author": "test",
+  "title": "배고프다. 밥먹고싶다.",
+  "content": "유라",
+  "modified_date": "2016-12-08T12:08:00.088979Z",
+  "created_date": "2016-12-08T12:08:00.089103Z"
 }
 ~~~
 - 썸네일 관련
@@ -184,9 +199,11 @@ author에는 해당 유저의 pk값이 들어가는데 추후 조금 더 직관�
 
 - GET 요청시 해당 pk값의 글과 사진데이터를 가져옴.
 
-<http://photodiary-dev.ap-northeast-2.elasticbeanstalk.com/post/post-pk>
-(post-pk 값에 가져올 글의 pk값을 입력)
+<http://photodiary-dev.ap-northeast-2.elasticbeanstalk.com/post/{post-id} >
+(위의 URL 맨 뒤에 post-id에 가져올 글의 id값을 입력)
 
+결과값 예시
+위의 결과는 post-id 값에 12를 입력한 결과
 ~~~
 {
   "id": 12,
@@ -198,14 +215,14 @@ author에는 해당 유저의 pk값이 들어가는데 추후 조금 더 직관�
   "author": 1
 }
 ~~~
-위의 결과는 post-pk 값에 12를 입력한 결과
 
-- 위와 같은 URL로 'PUT' 요청시 입력할 key값과 data를 적어 보내면 글 내용을 수정할수 있음
+- 위와 같은 URL로 'PUT' 요청시 
+:해당 포스트 id값과 BODY에 title, content 값을 함께 보내면 글 내용을 수정할수 있음
 
 > title 열두번째제목수정
-
 > content 열두번째내용수정
 
+결과값 예시
 ~~~
 {
   "id": 12,
@@ -219,16 +236,20 @@ author에는 해당 유저의 pk값이 들어가는데 추후 조금 더 직관�
 ~~~
 
 
-- 위와 같은 URL로 'DELETE' 요청시 해당 pk값의 글과 사진데이터를 삭제함.
+- 위와 같은 URL로 'DELETE' 요청시
+: 해당 id값의 글과 사진데이터를 삭제함.
 
 
 ## 사진 관련
 : 로그인한 해당 유저의 사진들을 볼 수 있습니다.
 
-- GET 요청시 해당 post-pk값의 글의 사진들을 볼수 있다.
+- GET 요청시 
+:해당 post-id값의 글의 사진들을 볼수 있다.
 
-<http://photodiary-dev.ap-northeast-2.elasticbeanstalk.com/post/post-pk/photo>
+<http://photodiary-dev.ap-northeast-2.elasticbeanstalk.com/post/post-pk/photo >
 
+결과값 예시
+위의 예시는 post-id 값에 6 을 대입한 결과
 ~~~
 [
   {
@@ -250,9 +271,9 @@ author에는 해당 유저의 pk값이 들어가는데 추후 조금 더 직관�
 ]
 ~~~
 
-위의 예시는 post-pk 값에 6 을 대입한 결과
 
-- DELETE 요청시 해당 post-pk값의 글의 사진들을 삭제할수 있다.
+
+- DELETE 요청시 해당 post-id값의 글의 사진들을 삭제할수 있다.
 
 
 
@@ -281,64 +302,91 @@ author에는 해당 유저의 pk값이 들어가는데 추후 조금 더 직관�
 ~~~
 [
   {
-    "id": 17,
-    "photos": [
-      {
-        "id": 29,
-        "image": {
-          "full_size": "https://team1-photodiary.s3.amazonaws.com/media/photo/photo/1.jpg",
-          "medium_square_crop": "https://team1-photodiary.s3.amazonaws.com/media/__sized__/photo/photo/1-crop-c0-5__0-5-400x400-70.jpg"
-        },
-        "modified_date": "2016-12-08T08:51:12.478597Z",
-        "created_date": "2016-12-08T08:51:12.478672Z",
-        "post": 17
-      },
-      {
-        "id": 30,
-        "image": {
-          "full_size": "https://team1-photodiary.s3.amazonaws.com/media/photo/photo/9.jpg",
-          "medium_square_crop": "https://team1-photodiary.s3.amazonaws.com/media/__sized__/photo/photo/9-crop-c0-5__0-5-400x400-70.jpg"
-        },
-        "modified_date": "2016-12-08T08:51:14.171946Z",
-        "created_date": "2016-12-08T08:51:14.172037Z",
-        "post": 17
-      }
-    ],
-    "title": "짜장면 먹고싶다.",
+    "id": 12,
+    "photos": [],
+    "author": "test",
+    "title": "오늘날씨",
     "content": "오늘날씨좋다",
-    "modified_date": "2016-12-08T08:51:12.471421Z",
-    "created_date": "2016-12-08T08:51:12.471471Z",
-    "author": 2
+    "modified_date": "2016-12-07T07:07:23.205673Z",
+    "created_date": "2016-12-07T07:07:23.205736Z"
   },
   {
-    "id": 19,
+    "id": 13,
     "photos": [
       {
-        "id": 33,
         "image": {
-          "full_size": "https://team1-photodiary.s3.amazonaws.com/media/photo/photo/1.jpg",
-          "medium_square_crop": "https://team1-photodiary.s3.amazonaws.com/media/__sized__/photo/photo/1-crop-c0-5__0-5-400x400-70.jpg"
+          "medium_square_crop": "https://team1-photodiary.s3.amazonaws.com/media/__sized__/photo/photo/1-crop-c0-5__0-5-400x400-70.jpg",
+          "full_size": "https://team1-photodiary.s3.amazonaws.com/media/photo/photo/1.jpg"
         },
-        "modified_date": "2016-12-08T08:51:30.979118Z",
-        "created_date": "2016-12-08T08:51:30.979181Z",
-        "post": 19
+        "post_id": 13,
+        "photo_id": 21
       },
       {
-        "id": 34,
         "image": {
-          "full_size": "https://team1-photodiary.s3.amazonaws.com/media/photo/photo/9.jpg",
-          "medium_square_crop": "https://team1-photodiary.s3.amazonaws.com/media/__sized__/photo/photo/9-crop-c0-5__0-5-400x400-70.jpg"
+          "medium_square_crop": "https://team1-photodiary.s3.amazonaws.com/media/__sized__/photo/photo/9-crop-c0-5__0-5-400x400-70.jpg",
+          "full_size": "https://team1-photodiary.s3.amazonaws.com/media/photo/photo/9.jpg"
         },
-        "modified_date": "2016-12-08T08:51:31.784677Z",
-        "created_date": "2016-12-08T08:51:31.784829Z",
-        "post": 19
+        "post_id": 13,
+        "photo_id": 22
       }
     ],
-    "title": "짜장면먹고싶다",
+    "author": "test",
+    "title": "오늘날씨",
     "content": "오늘날씨좋다",
-    "modified_date": "2016-12-08T08:51:30.971914Z",
-    "created_date": "2016-12-08T08:51:30.972004Z",
-    "author": 2
+    "modified_date": "2016-12-07T07:07:26.741187Z",
+    "created_date": "2016-12-07T07:07:26.741240Z"
+  },
+  {
+    "id": 14,
+    "photos": [
+      {
+        "image": {
+          "medium_square_crop": "https://team1-photodiary.s3.amazonaws.com/media/__sized__/photo/photo/1-crop-c0-5__0-5-400x400-70.jpg",
+          "full_size": "https://team1-photodiary.s3.amazonaws.com/media/photo/photo/1.jpg"
+        },
+        "post_id": 14,
+        "photo_id": 23
+      },
+      {
+        "image": {
+          "medium_square_crop": "https://team1-photodiary.s3.amazonaws.com/media/__sized__/photo/photo/9-crop-c0-5__0-5-400x400-70.jpg",
+          "full_size": "https://team1-photodiary.s3.amazonaws.com/media/photo/photo/9.jpg"
+        },
+        "post_id": 14,
+        "photo_id": 24
+      }
+    ],
+    "author": "test",
+    "title": "오늘날씨",
+    "content": "오늘날씨좋다",
+    "modified_date": "2016-12-07T09:21:13.940156Z",
+    "created_date": "2016-12-07T09:21:13.940220Z"
+  },
+  {
+    "id": 15,
+    "photos": [
+      {
+        "image": {
+          "medium_square_crop": "https://team1-photodiary.s3.amazonaws.com/media/__sized__/photo/photo/1-crop-c0-5__0-5-400x400-70.jpg",
+          "full_size": "https://team1-photodiary.s3.amazonaws.com/media/photo/photo/1.jpg"
+        },
+        "post_id": 15,
+        "photo_id": 25
+      },
+      {
+        "image": {
+          "medium_square_crop": "https://team1-photodiary.s3.amazonaws.com/media/__sized__/photo/photo/9-crop-c0-5__0-5-400x400-70.jpg",
+          "full_size": "https://team1-photodiary.s3.amazonaws.com/media/photo/photo/9.jpg"
+        },
+        "post_id": 15,
+        "photo_id": 26
+      }
+    ],
+    "author": "test",
+    "title": "오늘 날씨가 많이 춥다.",
+    "content": "오늘날씨좋다",
+    "modified_date": "2016-12-08T08:50:58.382732Z",
+    "created_date": "2016-12-08T08:50:58.382811Z"
   }
 ]
 ~~~
