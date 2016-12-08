@@ -18,9 +18,9 @@ from django.contrib import admin
 from .views import *
 
 urlpatterns = [
-    url(r'^post/$', PostList.as_view()),
-    url(r'^post/(?P<pk>[0-9]+)/$', PostDetail.as_view()),
-    # url(r'^photo/$', PhotoList.as_view()),
-    url(r'^photo/(?P<pk>[0-9]+)/$', PhotoDetail.as_view()),
+    url(r'^$', PostList.as_view()),
+    url(r'^(?P<post_pk>[0-9]+)/$', PostDetail.as_view()),
+    url(r'^(?P<post_pk>[0-9]+)/photo/$', PhotoDetail.as_view()),
+    url(r'^(?P<post_pk>[0-9]+)/photo/(?P<photo_pk>[0-9]+)$', PhotoDetail.as_view()),
     url(r'^search/', Post_title_search.as_view()),
 ]
