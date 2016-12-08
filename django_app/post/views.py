@@ -91,6 +91,7 @@ class Post_title_search(APIView):
 
 
 class PhotoDetail(APIView):
+    permission_classes = (Isthatyours,)
 
     def get_post_object(self, post_pk):
         try:
