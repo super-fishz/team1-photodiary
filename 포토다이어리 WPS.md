@@ -179,3 +179,87 @@ author에는 해당 유저의 pk값이 들어가는데 추후 조금 더 직관�
 ~~~
 - 썸네일 관련
 이미지 업로드시 해당 원본이미지와 썸네일 변환 작업이 같이 진행되어 이미지 url이 2가지로 보여지게됩니다. 아직은 썸네일사진 크기 관련해서는 api딴에서는 조정할 수 없습니다.
+
+
+## 검색기능
+: 해당 url로 get요청을 보내면서 헤더에는 토큰값, 파라미터에는 title(key값), 검색어(value값) 을 집어 넣으면
+자신의 글 목록 중 해당 검색어를 포함하는 글 제목인 글들을 반환합니다.
+
+<https://team1-photodiary.s3.amazonaws.com/post/search>
+
+
+- GET 요청 
+
+입력해야하는 값
+
+키값, 벨류
+
+해더 > Authorization, Token
+파라미터 > title, '검색어'
+
+
+결과값 예시 (검색어 : 짜장면)
+~~~
+[
+  {
+    "id": 17,
+    "photos": [
+      {
+        "id": 29,
+        "image": {
+          "full_size": "https://team1-photodiary.s3.amazonaws.com/media/photo/photo/1.jpg",
+          "medium_square_crop": "https://team1-photodiary.s3.amazonaws.com/media/__sized__/photo/photo/1-crop-c0-5__0-5-400x400-70.jpg"
+        },
+        "modified_date": "2016-12-08T08:51:12.478597Z",
+        "created_date": "2016-12-08T08:51:12.478672Z",
+        "post": 17
+      },
+      {
+        "id": 30,
+        "image": {
+          "full_size": "https://team1-photodiary.s3.amazonaws.com/media/photo/photo/9.jpg",
+          "medium_square_crop": "https://team1-photodiary.s3.amazonaws.com/media/__sized__/photo/photo/9-crop-c0-5__0-5-400x400-70.jpg"
+        },
+        "modified_date": "2016-12-08T08:51:14.171946Z",
+        "created_date": "2016-12-08T08:51:14.172037Z",
+        "post": 17
+      }
+    ],
+    "title": "짜장면 먹고싶다.",
+    "content": "오늘날씨좋다",
+    "modified_date": "2016-12-08T08:51:12.471421Z",
+    "created_date": "2016-12-08T08:51:12.471471Z",
+    "author": 2
+  },
+  {
+    "id": 19,
+    "photos": [
+      {
+        "id": 33,
+        "image": {
+          "full_size": "https://team1-photodiary.s3.amazonaws.com/media/photo/photo/1.jpg",
+          "medium_square_crop": "https://team1-photodiary.s3.amazonaws.com/media/__sized__/photo/photo/1-crop-c0-5__0-5-400x400-70.jpg"
+        },
+        "modified_date": "2016-12-08T08:51:30.979118Z",
+        "created_date": "2016-12-08T08:51:30.979181Z",
+        "post": 19
+      },
+      {
+        "id": 34,
+        "image": {
+          "full_size": "https://team1-photodiary.s3.amazonaws.com/media/photo/photo/9.jpg",
+          "medium_square_crop": "https://team1-photodiary.s3.amazonaws.com/media/__sized__/photo/photo/9-crop-c0-5__0-5-400x400-70.jpg"
+        },
+        "modified_date": "2016-12-08T08:51:31.784677Z",
+        "created_date": "2016-12-08T08:51:31.784829Z",
+        "post": 19
+      }
+    ],
+    "title": "짜장면먹고싶다",
+    "content": "오늘날씨좋다",
+    "modified_date": "2016-12-08T08:51:30.971914Z",
+    "created_date": "2016-12-08T08:51:30.972004Z",
+    "author": 2
+  }
+]
+~~~
