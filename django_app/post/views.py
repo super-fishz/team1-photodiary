@@ -66,20 +66,20 @@ class PostDetail(APIView):
 
 class PhotoDetail(APIView):
 
-    def get_object(self, pk):
+    def get_post_object(self, pk):
         try:
             return Post.objects.get(pk=pk)
         except Post.DoesNotExist:
             raise Http404
 
     def get(self, request, pk, format=None):
-        post = self.get_object(pk)
+        post = self.get_post_object(pk)
         post_serializer = PostSerializer(post)
         post_photo_list = post_serializer.data['photos']
         return Response(post_photo_list)
 
     def put(self, request, pk, format=None):
-        photo = self.get_object(pk)
+        photo = self.get_post_object(pk)
         serializer = PhotoSerializer(photo, data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -87,11 +87,8 @@ class PhotoDetail(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
-        post = self.get_object(pk)
-        post_serializer = PostSerializer(post)
-        # post_photo_list = post_serializer.data['photos'].delete()
-        del post_serializer.data['photos']
-        if post_serializer.is_valid():
-            post_serializer.save()
-        print(post_serializer.data)
+        post = self.get_post_object(pk)
+
+        photos = post.photo_set.all()
+        photos.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
