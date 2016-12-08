@@ -71,10 +71,8 @@ class Post_title_search(APIView):
     포함 되는 제목의 글을 딕셔너리 형식(id : 글제목)으로 반환합니다.
     그 후 검색어와 제목을 비교해서
     해당글만 가져옵니다.
-
     '''
     def get(self, request):
-
         search_word = list(request.query_params.values())[0]
         all_queryset = self.request.user.post_set.all()
         all_post_list = list(all_queryset.values())
@@ -93,6 +91,7 @@ class Post_title_search(APIView):
 
 
 class PhotoDetail(APIView):
+    permission_classes = (Isthatyours,)
 
     def get_post_object(self, post_pk):
         try:
