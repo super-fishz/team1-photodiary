@@ -1,6 +1,9 @@
 import json
 
+from django.core import serializers
 from django.http import Http404
+from django.http import HttpResponse
+from django.http import JsonResponse
 from rest_framework import generics
 from rest_framework import status
 from rest_framework.views import APIView
@@ -72,8 +75,8 @@ class PhotoDetail(APIView):
     def get(self, request, pk, format=None):
         post = self.get_object(pk)
         post_serializer = PostSerializer(post)
-        photo_serializer = post_serializer.data['photos']
-        return Response(photo_serializer)
+        post_photo_list = post_serializer.data['photos']
+        return Response(post_photo_list)
 
     def put(self, request, pk, format=None):
         photo = self.get_object(pk)
@@ -84,6 +87,11 @@ class PhotoDetail(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
-        photo = self.get_object(pk)
-        photo.delete()
+        post = self.get_object(pk)
+        post_serializer = PostSerializer(post)
+        # post_photo_list = post_serializer.data['photos'].delete()
+        del post_serializer.data['photos']
+        if post_serializer.is_valid():
+            post_serializer.save()
+        print(post_serializer.data)
         return Response(status=status.HTTP_204_NO_CONTENT)

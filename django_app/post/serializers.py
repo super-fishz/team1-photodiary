@@ -13,7 +13,7 @@ class PhotoSerializer(ModelSerializer):
     class Meta:
         model = Photo
         # fields = ('image', 'modified_date', 'created_date')
-        fields = ('image', 'post')
+        fields = ('image', 'post', 'id')
         # fields = '__all__'
 
 
@@ -24,5 +24,5 @@ class PostSerializer(ModelSerializer):
     class Meta:
         model = Post
         # fields = ('title', 'author', 'content', 'modified_date', 'created_date', 'photos')
-        fields = ('title', 'author', 'content', 'photos')
-        # fields = '__all__'
+        # fields = ('title', 'author', 'content', 'photos', 'id')
+        fields = '__all__'
