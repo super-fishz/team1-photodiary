@@ -27,9 +27,13 @@ class PhotoSerializer(serializers.ModelSerializer):
 class PostSerializer(ModelSerializer):
 
     photos = PhotoSerializer(many=True, source='photo_set', read_only=True)
-
+    author = serializers.SerializerMethodField()
     class Meta:
         model = Post
         # fields = ('title', 'author', 'content', 'modified_date', 'created_date', 'photos')
         # fields = ('title', 'author', 'content', 'photos', 'id')
         fields = '__all__'
+
+
+    def get_author(self, obj):
+        return obj.author.username
