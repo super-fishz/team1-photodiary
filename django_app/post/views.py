@@ -62,24 +62,27 @@ class PostDetail(APIView):
 
 class Post_title_search(APIView):
     '''
-    get요청시 해당 검색어의 제목검색
+    get요청시 해당 검색어의 제목검색 후
+    포함 되는 제목의 글을 딕셔너리 형식(id : 글제목)으로 반환합니다.
     '''
     def get(self, request):
-        search_list = []
-        # for title in self.request.user.post_set.all():
-        #     search_list.append(title)
-        #     print (search_list)
 
         print('-' * 29)
+        search_word = list(request.query_params.values())[0]
         all_queryset = self.request.user.post_set.all()
         all_post_list = list(all_queryset.values())
+        title_id_dict = {}
         for number in range(0, len(all_post_list)):
             pop_title = all_post_list[number].pop('title')
             pop_post_id = all_post_list[number].pop('id')
-            title_id_dict = {}
             title_id_dict[pop_post_id] = pop_title
-            print(title_id_dict)
+        print('title_id_dict :', title_id_dict)
+        search_result = {}
+        for key, value in title_id_dict.items():
+            if search_word in str(value):
+                search_result[key] = value
 
+        print(search_result)
         print('-' * 29)
 
 
