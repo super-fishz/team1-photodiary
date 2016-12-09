@@ -1,6 +1,5 @@
 from rest_framework import permissions
-
-from post.models import Post
+from .models import Post
 
 
 class Isthatyours(permissions.BasePermission):
