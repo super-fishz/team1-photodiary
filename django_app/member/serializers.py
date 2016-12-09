@@ -1,6 +1,10 @@
 from rest_framework.serializers import ModelSerializer
 from .models import MyUser
 
+__all__ = [
+    'MyUserSerializer',
+    ]
+
 
 class MyUserSerializer(ModelSerializer):
     class Meta:

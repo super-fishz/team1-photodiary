@@ -1,16 +1,12 @@
-import json
-
-from django.core import serializers
 from django.http import Http404
-from django.http import HttpResponse
-from django.http import JsonResponse
 from rest_framework import generics
 from rest_framework import status
+from rest_framework.response import Response
 from rest_framework.views import APIView
+
 from .models import Photo, Post
 from .serializers import PhotoSerializer, PostSerializer
-from rest_framework.response import Response
-
+from .permision import Isthatyours
 
 class PostList(generics.ListCreateAPIView):
     serializer_class = PostSerializer
@@ -18,16 +14,16 @@ class PostList(generics.ListCreateAPIView):
     def get_queryset(self):
         return self.request.user.post_set.all()
 
-    # def create(self, request, *args, **kwargs):
-    #     serializer = self.get_serializer(data=request.data)
-    #     serializer.is_valid(raise_exception=True)
-    #     post = serializer.save(author=request.user)
-    #     for file in request.FILES.getlist('image'):
-    #         Photo.objects.create(post=post, image=file)
-    #     return Response(serializer.data)
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        post = serializer.save(author=request.user)
+        for file in request.FILES.getlist('image'):
+            Photo.objects.create(post=post, image=file)
+        return Response(serializer.data)
 
 
-from .permision import Isthatyours
+
 class PostDetail(APIView):
     permission_classes = (Isthatyours,)
 

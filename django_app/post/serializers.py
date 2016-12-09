@@ -30,10 +30,10 @@ class PostSerializer(ModelSerializer):
     author = serializers.SerializerMethodField()
     class Meta:
         model = Post
-        # fields = ('title', 'author', 'content', 'modified_date', 'created_date', 'photos')
-        # fields = ('title', 'author', 'content', 'photos', 'id')
         fields = '__all__'
 
 
     def get_author(self, obj):
+        print("-"*132)
+        print(obj.author)
         return obj.author.username

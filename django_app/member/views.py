@@ -1,8 +1,12 @@
 from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
-
 from .serializers import *
+from .models import MyUser
+__all__ = [
+    'UserList',
+    'CurrentUserDetail'
+    ]
 
 
 class UserList(generics.ListCreateAPIView):
