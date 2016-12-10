@@ -1,4 +1,6 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ModelSerializer, raise_errors_on_nested_writes
+from rest_framework.utils import model_meta
+
 from .models import MyUser
 
 __all__ = [
@@ -12,13 +14,11 @@ class MyUserSerializer(ModelSerializer):
         fields = ('username', 'email', 'password', 'date_joined', 'id')
         write_only_fields = ('password',)
 
-    def create(self, validated_data):
-        username = validated_data['username']
-        email = validated_data['email']
+
+    def update(self, instance, validated_data):
+        print()
+        serializer = MyUserSerializer(instance, data=validated_data)
         password = validated_data['password']
-        user = MyUser.objects.create_user(
-            username=username,
-            email=email,
-            password=password
-        )
-        return user
+        instance.set_password(password)
+        instance.save()
+        return instance

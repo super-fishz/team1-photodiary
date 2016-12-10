@@ -12,7 +12,6 @@ class PhotoSerializer(serializers.ModelSerializer):
     )
     photo_id = serializers.SerializerMethodField()
     post_id = serializers.SerializerMethodField()
-    print('-'*133)
 
     class Meta:
         model = Photo
@@ -34,6 +33,4 @@ class PostSerializer(ModelSerializer):
 
 
     def get_author(self, obj):
-        print("-"*132)
-        print(obj.author)
         return obj.author.username
