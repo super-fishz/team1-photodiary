@@ -41,6 +41,7 @@
 >password
 
 결과값 예시
+
 ~~~
 {
   "username": "test11",
@@ -202,8 +203,8 @@
 <http://photodiary-dev.ap-northeast-2.elasticbeanstalk.com/post/{post-id} >
 (위의 URL 맨 뒤에 post-id에 가져올 글의 id값을 입력)
 
-결과값 예시
-위의 결과는 post-id 값에 12를 입력한 결과
+아래 결과는 post-id 값에 12를 입력한 결과
+
 ~~~
 {
   "id": 12,
@@ -220,9 +221,11 @@
 :해당 포스트 id값과 BODY에 title, content 값을 함께 보내면 글 내용을 수정할수 있음
 
 > title 열두번째제목수정
+
 > content 열두번째내용수정
 
 결과값 예시
+
 ~~~
 {
   "id": 12,
@@ -246,10 +249,8 @@
 - GET 요청시 
 :해당 post-id값의 글의 사진들을 볼수 있다.
 
-<http://photodiary-dev.ap-northeast-2.elasticbeanstalk.com/post/post-pk/photo >
+<http://photodiary-dev.ap-northeast-2.elasticbeanstalk.com/post/{post-id}/photo/>
 
-결과값 예시
-위의 예시는 post-id 값에 6 을 대입한 결과
 ~~~
 [
   {
@@ -270,11 +271,17 @@
   }
 ]
 ~~~
+위의 예시는 post-id 값에 6 을 대입한 결과
 
 
 
-- DELETE 요청시 해당 post-id값의 글의 사진들을 삭제할수 있다.
+- 해당 URL에 DELETE 요청시 해당 post-id값의 글의 전체사진들을 삭제할수 있다.
 
+<http://photodiary-dev.ap-northeast-2.elasticbeanstalk.com/post/{post-id}/photo/>
+
+- 해당 URL에 DELETE 요청시 해당 post-id값의 글의 해당 photo-id값에 해당하는 사진을 지울수 있다.
+
+<http://photodiary-dev.ap-northeast-2.elasticbeanstalk.com/post/{post-id}/photo/{photo-id}/>
 
 
 
@@ -299,6 +306,7 @@
 
 
 결과값 예시 (검색어 : 짜장면)
+
 ~~~
 [
   {
