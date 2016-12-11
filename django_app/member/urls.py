@@ -1,9 +1,10 @@
 from django.conf.urls import url, include
 from .views import *
+from rest_framework.authtoken import views
 
 urlpatterns = [
-    url(r'^user/', UserList.as_view()),
-    url(r'^user_detail/$', CurrentUserDetail.as_view()),
-    url(r'^auth/', include('rest_auth.urls')),
-    url(r'^user/love', UserList.as_view())
+    url(r'^create/$', CreateUser.as_view()),
+    url(r'^detail/$', DetailUser.as_view()),
+    url(r'^login/$', Login_ObtainAuthToken.as_view()),
+    url(r'^logout/$', Logout_RemoveAuthToken.as_view())
 ]

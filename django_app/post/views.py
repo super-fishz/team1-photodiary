@@ -8,6 +8,7 @@ from .models import Photo, Post
 from .serializers import PhotoSerializer, PostSerializer
 from .permision import Isthatyours
 
+
 class PostList(generics.ListCreateAPIView):
     serializer_class = PostSerializer
 
@@ -23,10 +24,8 @@ class PostList(generics.ListCreateAPIView):
         return Response(serializer.data)
 
 
-
 class PostDetail(APIView):
     permission_classes = (Isthatyours,)
-
 
     def get_object(self, post_pk):
         try:
@@ -60,6 +59,7 @@ class PostDetail(APIView):
         post = self.get_object(post_pk)
         post.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 class Post_title_search(APIView):
     '''
