@@ -1,6 +1,5 @@
-from django.conf.urls import url, include
+from django.conf.urls import url
 from .views import *
-from rest_framework.authtoken import views
 
 urlpatterns = [
     url(r'^create/$', CreateUser.as_view()),
