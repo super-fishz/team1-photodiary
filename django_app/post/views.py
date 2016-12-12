@@ -3,9 +3,9 @@ from rest_framework import generics
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .models import Photo, Post
+from .models import Photo, Post, TodayPhoto
 from .permission import Isthatyours
-from .serializers import PostSerializer
+from .serializers import PostSerializer, TodayPhotoSerializer
 
 
 class PostList(generics.ListCreateAPIView):
@@ -116,3 +116,14 @@ class PhotoDetail(APIView):
             photos = post_pk.photo_set.all()
             photos.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class CreateTodayPhoto(generics.CreateAPIView):
+    serializer_class = TodayPhotoSerializer
+    queryset = TodayPhoto
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(author='superuser')
+        return Response(serializer.data)
