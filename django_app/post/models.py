@@ -42,3 +42,13 @@ class SelectTodayPhoto(models.Model):
     user = models.ForeignKey('member.MyUser')
     photo = models.ForeignKey(TodayPhoto)
     created_date = models.DateTimeField(auto_now_add=True)
+
+
+class Today3photo(models.Model):
+    created_date = models.DateTimeField(auto_now_add=True)
+    photo1 = models.ForeignKey(TodayPhoto, on_delete=models.CASCADE, related_name='good')
+    photo2 = models.ForeignKey(TodayPhoto, on_delete=models.CASCADE, related_name='bad')
+    photo3 = models.ForeignKey(TodayPhoto, on_delete=models.CASCADE, related_name='know')
+    title = models.CharField(max_length=100, null=True, blank=True)
+
+

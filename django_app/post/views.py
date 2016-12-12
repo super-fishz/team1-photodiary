@@ -1,11 +1,16 @@
+import random
+from datetime import timedelta
+
 from django.http import Http404
+from django.utils import timezone
 from rest_framework import generics
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .models import Photo, Post, TodayPhoto
+
+from .models import Photo, Post, TodayPhoto, Today3photo
 from .permission import Isthatyours
-from .serializers import PostSerializer, TodayPhotoSerializer
+from .serializers import PostSerializer, TodayPhotoSerializer, Today3photoSerializer
 
 
 class PostList(generics.ListCreateAPIView):
@@ -123,7 +128,36 @@ class CreateTodayPhoto(generics.CreateAPIView):
     queryset = TodayPhoto
 
     def create(self, request, *args, **kwargs):
+        """
+        오늘의 사진 올리기
+        """
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save(author='superuser')
         return Response(serializer.data)
+
+
+class PickTodayPhoto(APIView):
+    def new3photo(self):
+        good_count = TodayPhoto.objects.filter(is_good=True).count()
+        bad_count = TodayPhoto.objects.filter(is_bad=True).count()
+        know_count = TodayPhoto.objects.filter(is_not_know=True).count()
+        index1 = random.randint(0, good_count - 1)
+        index2 = random.randint(0, bad_count - 1)
+        index3 = random.randint(0, know_count - 1)
+        good_photo = TodayPhoto.objects.filter(is_good=True)[index1]
+        bad_photo = TodayPhoto.objects.filter(is_bad=True)[index2]
+        know_photo = TodayPhoto.objects.filter(is_not_know=True)[index3]
+
+        return Today3photo.objects.create(photo1=good_photo, photo2=bad_photo, photo3=know_photo)
+
+    def post(self, request):
+        if Today3photo.objects.exists():
+            if timezone.now() - Today3photo.objects.last().created_date < timedelta(days=1):
+                return Response("하루가 지나야 생성 가능합니다.", )
+            else:
+                result = Today3photoSerializer(self.new3photo())
+                return Response(result.data)
+        else:
+            result = Today3photoSerializer(self.new3photo())
+            return Response(result.data)

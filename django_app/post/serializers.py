@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
-from .models import Post, Photo, TodayPhoto
+from .models import Post, Photo, TodayPhoto, Today3photo
 from versatileimagefield.serializers import VersatileImageFieldSerializer
 import sys
 
@@ -71,3 +71,8 @@ class TodayPhotoSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(msg)
 
 
+class Today3photoSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Today3photo
+        fields = '__all__'

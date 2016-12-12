@@ -22,5 +22,6 @@ urlpatterns = [
     url(r'^search/$', PostTitleSearch.as_view()),
     url(r'^(?P<post_pk>[0-9]+)/photo/$', PhotoDetail.as_view()),
     url(r'^(?P<post_pk>[0-9]+)/photo/(?P<photo_pk>[0-9]+)/$', PhotoDetail.as_view()),
-    url(r'^today_photo/create/$', CreateTodayPhoto.as_view())
+    url(r'^today_photo/create/$', CreateTodayPhoto.as_view()),
+    url(r'^today_photo/get_3/$', PickTodayPhoto.as_view())
 ]
