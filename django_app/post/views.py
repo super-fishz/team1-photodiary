@@ -3,10 +3,9 @@ from rest_framework import generics
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
 from .models import Photo, Post
-from .serializers import PhotoSerializer, PostSerializer
-from .permision import Isthatyours
+from .permission import Isthatyours
+from .serializers import PostSerializer
 
 
 class PostList(generics.ListCreateAPIView):
@@ -43,7 +42,10 @@ class PostDetail(APIView):
         origin_serializer = PostSerializer(post)
         origin_title = origin_serializer.data['title']
         modify_serializer = PostSerializer(post, data=request.data)
+
         if modify_serializer.is_valid():
+            for file in request.FILES.getlist('image'):
+                Photo.objects.create(post=post, image=file)
             modify_serializer.save()
             return Response(modify_serializer.data)
         elif 'title' not in request.data:
@@ -61,7 +63,8 @@ class PostDetail(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class Post_title_search(APIView):
+
+class PostTitleSearch(APIView):
     '''
     get요청시 해당 검색어의 제목검색 후
     포함 되는 제목의 글을 딕셔너리 형식(id : 글제목)으로 반환합니다.
@@ -102,16 +105,14 @@ class PhotoDetail(APIView):
         return Response(post_photo_list)
 
     def put(self, request, post_pk, format=None):
-        photo = self.get_post_object(post_pk)
-        serializer = PhotoSerializer(photo, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response('this url is not allowed "PUT" method')
 
-    def delete(self, request, post_pk, format=None):
+    def delete(self, request, post_pk, photo_pk, format=None):
         post = self.get_post_object(post_pk)
-        photos = post.photo_set.all()
-        photos.delete()
+        if photo_pk:
+            photos = post.photo_set.get(pk=photo_pk)
+            photos.delete()
+        else:
+            photos = post_pk.photo_set.all()
+            photos.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-

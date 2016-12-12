@@ -65,7 +65,7 @@ class DetailUser(generics.UpdateAPIView, APIView):
         serializer.save()
         result = dict(serializer.data)
         result.pop('password')
-        return Response(result)
+        return Response("비밀번호가 변경 되었습니다.")
 
 
 class Login_ObtainAuthToken(APIView):
@@ -91,4 +91,4 @@ class Logout_RemoveAuthToken(APIView):
         로그아웃
         '''
         Token.objects.get(user=request.user).delete()
-        return Response("로그아웃 완료.", status=status.HTTP_200_OK)
+        return Response("로그아웃 완료되었습니다.", status=status.HTTP_200_OK)
