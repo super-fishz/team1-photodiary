@@ -1,6 +1,7 @@
 from django.http import Http404
 from rest_framework import generics
 from rest_framework import status
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Photo, Post
@@ -8,7 +9,7 @@ from .permission import Isthatyours
 from .serializers import PostSerializer
 
 
-class PostList(generics.ListCreateAPIView):
+class PostList(generics.ListCreateAPIView, PageNumberPagination):
     serializer_class = PostSerializer
 
     def get_queryset(self):
