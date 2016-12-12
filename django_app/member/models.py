@@ -8,7 +8,6 @@ class UserManager(UserManager):
     pass
 
 class MyUser(AbstractUser):
-    username_validator = UnicodeUsernameValidator()
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
 
@@ -17,8 +16,6 @@ class MyUser(AbstractUser):
         _('username'),
         max_length=150,
         unique=False,
-        help_text=_('영문만 입력 가능 합니다.'),
-        validators=[username_validator],
     )
 
     def __str__(self):
