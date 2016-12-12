@@ -1,11 +1,11 @@
 from django.http import Http404
 from rest_framework import generics
 from rest_framework import status
+from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Photo, Post
-from .serializers import PhotoSerializer, PostSerializer
-from rest_framework.response import Response
 from .permission import Isthatyours
+from .serializers import PostSerializer
 
 
 class PostList(generics.ListCreateAPIView):
@@ -61,6 +61,7 @@ class PostDetail(APIView):
         post = self.get_object(post_pk)
         post.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 
 class PostTitleSearch(APIView):

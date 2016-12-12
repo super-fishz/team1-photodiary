@@ -13,7 +13,6 @@ class PhotoSerializer(serializers.ModelSerializer):
     )
     photo_id = serializers.SerializerMethodField()
     post_id = serializers.SerializerMethodField()
-    print('-'*133)
 
     class Meta:
         model = Photo
@@ -33,8 +32,6 @@ class PostSerializer(ModelSerializer):
 
     class Meta:
         model = Post
-        # fields = ('title', 'author', 'content', 'modified_date', 'created_date', 'photos')
-        # fields = ('title', 'author', 'content', 'photos', 'id')
         fields = '__all__'
 
     def get_author(self, obj):
