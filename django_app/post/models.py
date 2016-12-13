@@ -37,6 +37,9 @@ class TodayPhoto(models.Model):
                                           related_name='photo_set_select_users')
     select_count = models.SmallIntegerField(default=0)
 
+    def __str__(self):
+        return self.title
+
 
 class SelectTodayPhoto(models.Model):
     user = models.ForeignKey('member.MyUser')

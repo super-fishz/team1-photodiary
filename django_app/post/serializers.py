@@ -2,7 +2,6 @@ from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
 from .models import Post, Photo, TodayPhoto, Today3photo
 from versatileimagefield.serializers import VersatileImageFieldSerializer
-import sys
 
 
 class PhotoSerializer(serializers.ModelSerializer):
@@ -33,11 +32,11 @@ class PostSerializer(ModelSerializer):
 
     class Meta:
         model = Post
-        fields = '__all__'
+        fields = ('id', 'photos', 'author', 'title', 'content',
+                  'modified_date', 'created_date')
 
     def get_author(self, obj):
         return obj.author.username
-
 
 class TodayPhotoSerializer(serializers.ModelSerializer):
     image = VersatileImageFieldSerializer(
