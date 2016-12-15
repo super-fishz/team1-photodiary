@@ -29,7 +29,7 @@ class PostList(generics.ListCreateAPIView):
 
 
 class PostDetail(APIView):
-    permission_classes = (Isthatyours,)
+    # permission_classes = (Isthatyours,)
 
     def get_object(self, post_pk):
         try:
@@ -38,6 +38,8 @@ class PostDetail(APIView):
             raise Http404
 
     def get(self, request, post_pk, format=None):
+        print(dir(request))
+        print(request._authenticate)
         post = self.get_object(post_pk)
         serializer = PostSerializer(post)
         return Response(serializer.data)
@@ -95,7 +97,7 @@ class PostTitleSearch(APIView):
 
 
 class PhotoDetail(APIView):
-    permission_classes = (Isthatyours,)
+    # permission_classes = (Isthatyours,)
 
     def get_post_object(self, post_pk):
         try:
@@ -198,6 +200,7 @@ class PickTodayPhoto(APIView):
             image.save()
             many = SelectTodayPhoto(user=request.user, photo=image)
             many.save()
+
             serializer = PostSerializer(data=request.data)
             serializer.is_valid(raise_exception=True)
             post = serializer.save(author=request.user)
