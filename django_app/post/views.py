@@ -1,11 +1,16 @@
+import random
+from datetime import timedelta
+
 from django.http import Http404
+from django.utils import timezone
 from rest_framework import generics
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .models import Photo, Post
+
+from .models import Photo, Post, TodayPhoto, Today3photo, SelectTodayPhoto
 from .permission import Isthatyours
-from .serializers import PostSerializer
+from .serializers import PostSerializer, TodayPhotoSerializer, Today3photoSerializer, PhotoSerializer
 
 
 class PostList(generics.ListCreateAPIView):
@@ -24,7 +29,7 @@ class PostList(generics.ListCreateAPIView):
 
 
 class PostDetail(APIView):
-    permission_classes = (Isthatyours,)
+    # permission_classes = (Isthatyours,)
 
     def get_object(self, post_pk):
         try:
@@ -33,6 +38,8 @@ class PostDetail(APIView):
             raise Http404
 
     def get(self, request, post_pk, format=None):
+        print(dir(request))
+        print(request._authenticate)
         post = self.get_object(post_pk)
         serializer = PostSerializer(post)
         return Response(serializer.data)
@@ -90,7 +97,7 @@ class PostTitleSearch(APIView):
 
 
 class PhotoDetail(APIView):
-    permission_classes = (Isthatyours,)
+    # permission_classes = (Isthatyours,)
 
     def get_post_object(self, post_pk):
         try:
@@ -116,3 +123,97 @@ class PhotoDetail(APIView):
             photos = post_pk.photo_set.all()
             photos.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class CreateTodayPhoto(generics.CreateAPIView):
+    serializer_class = TodayPhotoSerializer
+    queryset = TodayPhoto
+
+    def create(self, request, *args, **kwargs):
+        """
+        오늘의 사진 올리기
+        """
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(author='superuser')
+        return Response(serializer.data)
+
+
+class PickTodayPhoto(APIView):
+    queryset = TodayPhoto
+
+    def new3photo(self):
+        '''
+        Todayphoto 의 3가지 종류의 사진들중 하나씩을 랜덤으로 뽑아 Today3photo 객체를
+        만들어 리턴하는 함수입니다.
+        '''
+        good_count = TodayPhoto.objects.filter(is_good=True).count()
+        bad_count = TodayPhoto.objects.filter(is_bad=True).count()
+        know_count = TodayPhoto.objects.filter(is_not_know=True).count()
+        index1 = random.randint(0, good_count - 1)
+        index2 = random.randint(0, bad_count - 1)
+        index3 = random.randint(0, know_count - 1)
+        good_photo = TodayPhoto.objects.filter(is_good=True)[index1]
+        bad_photo = TodayPhoto.objects.filter(is_bad=True)[index2]
+        know_photo = TodayPhoto.objects.filter(is_not_know=True)[index3]
+
+        return Today3photo.objects.create(photo1=good_photo, photo2=bad_photo, photo3=know_photo)
+
+    def get(self, request):
+        '''
+        만약 Today3photo 오브젝트가 하나도 없으면 바로 생성합니다.
+        오브젝트가 있고 그것이 생성한지 하루가 지나지 않았으면 마지막 오브젝트를 리턴합니다
+        하루가 지났다면 다시 생성하고 그것을 리턴합니다.
+        '''
+        if Today3photo.objects.exists():
+            if timezone.now() - Today3photo.objects.last().created_date < timedelta(days=1):
+                result = Today3photoSerializer(Today3photo.objects.last())
+
+                return Response({
+                    "오류메시지": "하루가 지나야 생성 가능합니다.",
+                    "마지막으로 만든 데이터": result.data,
+                    "photo1": Today3photo.objects.last().photo1.image.url,
+                    "photo2": Today3photo.objects.last().photo2.image.url,
+                    "photo3": Today3photo.objects.last().photo3.image.url
+                    })
+            else:
+                result = Today3photoSerializer(self.new3photo())
+                return Response(result.data)
+        else:
+            result = Today3photoSerializer(self.new3photo())
+            return Response(result.data)
+
+
+    def post(self, request, select_id):
+        '''
+        유저가 select_id 를 통해 3개의 사진 중 하나를 선택하면
+        그 사진을 포함한 글을 작성 할 수 있습니다.
+        글이 작성되고 Todayphoto 모델에 선택한 유저와, 선택한 유저의 카운터를 +1 시키고
+        해당 글을 리턴합니다. 그리고 함께 3가지 사진들 중 유저들이 선택한 횟수의 비율도 함께 보여줍니다.
+        '''
+
+        if request.user.is_anonymous:
+            raise Exception("토큰값을 주셔야 합니다.")
+        else:
+            image = TodayPhoto.objects.get(pk=select_id)
+            image.select_count += 1
+            image.save()
+            many = SelectTodayPhoto(user=request.user, photo=image)
+            many.save()
+
+            serializer = PostSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            post = serializer.save(author=request.user)
+            Photo.objects.create(post=post, image=image.image)
+
+            recently_3photo = Today3photo.objects.last()
+            select_count = recently_3photo.photo1.select_count\
+                + recently_3photo.photo2.select_count\
+                + recently_3photo.photo3.select_count
+            percentage = image.select_count / select_count * 100
+
+            result = dict(serializer.data)
+            result['percent'] = percentage
+
+        return Response(result)
+

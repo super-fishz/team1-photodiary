@@ -3,7 +3,7 @@ from django.db import models
 
 
 class Post(models.Model):
-    title = models.CharField(max_length=50)
+    title = models.CharField(max_length=100)
     content = models.TextField(max_length=200, blank=True)
     author = models.ForeignKey('member.MyUser', null=True)
     modified_date = models.DateTimeField(auto_now=True)
@@ -21,3 +21,37 @@ class Photo(models.Model):
 
     def __str__(self):
         return 'POST(%s) - PHOTO(%s)' % (self.post.pk, self.pk)
+
+
+class TodayPhoto(models.Model):
+    image = VersatileImageField('image', upload_to='today', blank=False)
+    created_date = models.DateTimeField(auto_now_add=True)
+    title = models.CharField(max_length=100, null=True, blank=True)
+    author = models.ForeignKey('member.MyUser', related_name='photo_set_author', null=True, blank=True)
+    used_date = models.DateTimeField(blank=True, null=True)
+    is_good = models.BooleanField(default=False)
+    is_bad = models.BooleanField(default=False)
+    is_not_know = models.BooleanField(default=False)
+    select_users = models.ManyToManyField('member.MyUser',
+                                          through='SelectTodayPhoto',
+                                          related_name='photo_set_select_users')
+    select_count = models.SmallIntegerField(default=0)
+
+    def __str__(self):
+        return self.title
+
+
+class SelectTodayPhoto(models.Model):
+    user = models.ForeignKey('member.MyUser')
+    photo = models.ForeignKey(TodayPhoto)
+    created_date = models.DateTimeField(auto_now_add=True)
+
+
+class Today3photo(models.Model):
+    created_date = models.DateTimeField(auto_now_add=True)
+    photo1 = models.ForeignKey(TodayPhoto, on_delete=models.CASCADE, related_name='good')
+    photo2 = models.ForeignKey(TodayPhoto, on_delete=models.CASCADE, related_name='bad')
+    photo3 = models.ForeignKey(TodayPhoto, on_delete=models.CASCADE, related_name='know')
+    title = models.CharField(max_length=100, null=True, blank=True)
+
+
