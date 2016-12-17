@@ -10,7 +10,7 @@ from rest_framework.views import APIView
 
 from .models import Photo, Post, TodayPhoto, Today3photo, SelectTodayPhoto
 from .permission import Isthatyours
-from .serializers import PostSerializer, TodayPhotoSerializer, Today3photoSerializer, PhotoSerializer
+from .serializers import PostSerializer, TodayPhotoSerializer, Today3photoSerializer
 
 
 class PostList(generics.ListCreateAPIView):
@@ -60,6 +60,8 @@ class PostDetail(APIView):
             modify_serializer.save()
             return Response(modify_serializer.data)
         elif 'title' not in request.data:
+            for file in request.FILES.getlist('image'):
+                Photo.objects.create(post=post, image=file)
             request.data['title'] = origin_title
             modify_serializer = PostSerializer(post, data=request.data)
             if modify_serializer.is_valid():
@@ -194,11 +196,19 @@ class PickTodayPhoto(APIView):
         그 사진을 포함한 글을 작성 할 수 있습니다.
         글이 작성되고 Todayphoto 모델에 선택한 유저와, 선택한 유저의 카운터를 +1 시키고
         해당 글을 리턴합니다. 그리고 함께 3가지 사진들 중 유저들이 선택한 횟수의 비율도 함께 보여줍니다.
+
+        유저가 select_id를 통해 사진을 하나 고를때 오늘의 사진에 있는 id값인지 검사를 먼저 합니다.
         '''
 
         if request.user.is_anonymous:
             raise Exception("토큰값을 주셔야 합니다.")
         else:
+            # if select_id == list({k: Today3photo.objects.last().__dict__[k] for k
+            #                       in ('photo1_id', 'photo2_id', 'photo3_id')}.values()):
+            if int(select_id) in [value for key, value in Today3photo.objects.values().last().items() if 'photo' in key]:
+                pass
+            else:
+                return Response("URL에 입력하신 아이디는 오늘의 사진에 없는 사진 ID입니다.")
             image = TodayPhoto.objects.get(pk=select_id)
             image.select_count += 1
             image.save()
