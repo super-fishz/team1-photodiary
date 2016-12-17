@@ -1,5 +1,7 @@
 from django.contrib.auth import authenticate
 from rest_framework import serializers
+from rest_framework.exceptions import APIException
+
 from .models import MyUser
 from django.utils.translation import ugettext_lazy as _
 
@@ -13,10 +15,13 @@ class MyUserSerializer(serializers.ModelSerializer):
         username = validated_data['username']
         email = validated_data['email']
         password = validated_data['password']
-        user = MyUser.objects.create(
-          username=username,
-          email=email
-        )
+        try:
+            user = MyUser.objects.create(
+              username=username,
+              email=email
+            )
+        except Exception as e:
+            raise APIException({"detail": e.args})
         user.set_password(password)
         user.save()
         return user
