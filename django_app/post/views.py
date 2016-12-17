@@ -10,7 +10,7 @@ from rest_framework.views import APIView
 
 from .models import Photo, Post, TodayPhoto, Today3photo, SelectTodayPhoto
 from .permission import Isthatyours
-from .serializers import PostSerializer, TodayPhotoSerializer, Today3photoSerializer, PhotoSerializer
+from .serializers import PostSerializer, TodayPhotoSerializer, Today3photoSerializer
 
 
 class PostList(generics.ListCreateAPIView):
