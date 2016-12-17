@@ -19,17 +19,23 @@ class PostList(generics.ListCreateAPIView):
     def get_queryset(self):
         return self.request.user.post_set.all()
 
+    def get_serializer(self, *args, **kwargs):
+        serializer_class = self.get_serializer_class()
+        kwargs['context'] = self.get_serializer_context()
+        return serializer_class(*args, **kwargs)
+
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         post = serializer.save(author=request.user)
-        for file in request.FILES.getlist('image'):
+
+        for file in request.data.getlist('image'):
             Photo.objects.create(post=post, image=file)
         return Response(serializer.data)
 
 
 class PostDetail(APIView):
-    # permission_classes = (Isthatyours,)
+    permission_classes = (Isthatyours,)
 
     def get_object(self, post_pk):
         try:
@@ -38,8 +44,6 @@ class PostDetail(APIView):
             raise Http404
 
     def get(self, request, post_pk, format=None):
-        print(dir(request))
-        print(request._authenticate)
         post = self.get_object(post_pk)
         serializer = PostSerializer(post)
         return Response(serializer.data)

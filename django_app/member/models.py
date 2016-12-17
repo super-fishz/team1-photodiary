@@ -10,7 +10,7 @@ class UserManager(UserManager):
 
 class MyUser(AbstractUser):
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username']
+    REQUIRED_FIELDS = ['password']
 
     email = models.EmailField(_('email address'), unique=True)
     username = models.CharField(
