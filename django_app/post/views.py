@@ -60,6 +60,8 @@ class PostDetail(APIView):
             modify_serializer.save()
             return Response(modify_serializer.data)
         elif 'title' not in request.data:
+            for file in request.FILES.getlist('image'):
+                Photo.objects.create(post=post, image=file)
             request.data['title'] = origin_title
             modify_serializer = PostSerializer(post, data=request.data)
             if modify_serializer.is_valid():
