@@ -1,7 +1,11 @@
+import io
 import random
+import urllib.request
+import zipfile
 from datetime import timedelta
 
 from django.http import Http404
+from django.http import HttpResponse
 from django.utils import timezone
 from rest_framework import generics
 from rest_framework import status
@@ -9,7 +13,6 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .models import Photo, Post, TodayPhoto, Today3photo, SelectTodayPhoto
-from .permission import Isthatyours
 from .serializers import PostSerializer, TodayPhotoSerializer, Today3photoSerializer
 
 
@@ -231,3 +234,28 @@ class PickTodayPhoto(APIView):
 
         return Response(result)
 
+
+class ZipAndSendMail(APIView):
+
+    def get(self, request):
+        '''
+        해당 url로 접속하면 해더에 있는
+        토큰을 가진 유저의 마지막 사진 10개를 압축한다음
+        다운로드하게 한다.
+        '''
+
+        image_list = []
+        for i in Photo.objects.filter(post__author=request.user.id).reverse()[:10]:
+            image = "https://team1-photodiary.s3.amazonaws.com/media/{}".format(i.image)
+            image_list.append(image)
+        f = io.BytesIO()
+        zip = zipfile.ZipFile(f, 'w')
+        count = 0
+        for url in image_list:
+            count += 1
+            url = urllib.request.urlopen(url)
+            zip.writestr('{}.jpg'.format(count), url.read())
+        zip.close()
+        response = HttpResponse(f.getvalue(), content_type="application/zip")
+        response['Content-Disposition'] = 'attachment; filename=diary.zip'
+        return response
