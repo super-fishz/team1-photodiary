@@ -245,7 +245,8 @@ class ZipAndSendMail(APIView):
         '''
 
         image_list = []
-        for i in Photo.objects.filter(post__author=request.user.id).reverse()[:10]:
+        number = int(request.query_params['number'])
+        for i in Photo.objects.filter(post__author=request.user.id).reverse()[:number]:
             image = "https://team1-photodiary.s3.amazonaws.com/media/{}".format(i.image)
             image_list.append(image)
         f = io.BytesIO()
