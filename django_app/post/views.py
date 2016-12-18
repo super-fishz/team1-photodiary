@@ -35,7 +35,7 @@ class PostList(generics.ListCreateAPIView):
 
 
 class PostDetail(APIView):
-    permission_classes = (Isthatyours,)
+    # permission_classes = (Isthatyours,)
 
     def get_object(self, post_pk):
         try:
