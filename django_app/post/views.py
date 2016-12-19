@@ -117,7 +117,7 @@ class PostTitleSearch(generics.ListAPIView):
 
     def get_queryset(self):
         search_word = self.request.query_params['title']
-        queryset = Post.objects.filter(title__contains=search_word)
+        queryset = self.request.user.post_set.filter(title__contains=search_word)
         return queryset
 
 
