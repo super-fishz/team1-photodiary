@@ -84,29 +84,38 @@ class PostDetail(APIView):
 
 
 
-class PostTitleSearch(APIView):
-    '''
-    get요청시 해당 검색어의 제목검색 후
-    포함 되는 제목의 글을 딕셔너리 형식(id : 글제목)으로 반환합니다.
-    그 후 검색어와 제목을 비교해서
-    해당글만 가져옵니다.
-    '''
-    def get(self, request):
-        search_word = list(request.query_params.values())[0]
-        all_queryset = self.request.user.post_set.all()
-        all_post_list = list(all_queryset.values())
-        title_id_dict = {}
-        for number in range(0, len(all_post_list)):
-            pop_title = all_post_list[number].pop('title')
-            pop_post_id = all_post_list[number].pop('id')
-            title_id_dict[pop_post_id] = pop_title
-        search_result = []
-        for key, value in title_id_dict.items():
-            if search_word in str(value):
-                post = Post.objects.get(pk=key)
-                serializer = PostSerializer(post)
-                search_result.append(serializer.data)
-        return Response(search_result)
+# class PostTitleSearch(APIView):
+#     '''
+#     get요청시 해당 검색어의 제목검색 후
+#     포함 되는 제목의 글을 딕셔너리 형식(id : 글제목)으로 반환합니다.
+#     그 후 검색어와 제목을 비교해서
+#     해당글만 가져옵니다.
+#     '''
+#     def get(self, request):
+#         search_word = list(request.query_params.values())[0]
+#         all_queryset = self.request.user.post_set.all()
+#         all_post_list = list(all_queryset.values())
+#         title_id_dict = {}
+#         for number in range(0, len(all_post_list)):
+#             pop_title = all_post_list[number].pop('title')
+#             pop_post_id = all_post_list[number].pop('id')
+#             title_id_dict[pop_post_id] = pop_title
+#         search_result = []
+#         for key, value in title_id_dict.items():
+#             if search_word in str(value):
+#                 post = Post.objects.get(pk=key)
+#                 serializer = PostSerializer(post)
+#                 search_result.append(serializer.data)
+#         return Response(search_result)
+
+class PostTitleSearch(generics.ListAPIView):
+    serializer_class = PostSerializer
+
+    def get_queryset(self):
+        search_word = self.request.query_params['title']
+        queryset = Post.objects.filter(title__contains=search_word)
+        return queryset
+
 
 
 class PhotoDetail(APIView):
