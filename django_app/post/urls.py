@@ -14,6 +14,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url
+
+from post import views
 from .views import *
 
 urlpatterns = [
@@ -24,5 +26,6 @@ urlpatterns = [
     url(r'^(?P<post_pk>[0-9]+)/photo/(?P<photo_pk>[0-9]+)/$', PhotoDetail.as_view()),
     url(r'^today-photo/create/$', CreateTodayPhoto.as_view()),
     url(r'^today-photo/get-3/$', PickTodayPhoto.as_view()),
-    url(r'^today-photo/get-3/(?P<select_id>[0-9]+)/$', PickTodayPhoto.as_view())
+    url(r'^today-photo/get-3/(?P<select_id>[0-9]+)/$', PickTodayPhoto.as_view()),
+    url(r'^make-zip/$', ZipAndSendMail.as_view()),
 ]
