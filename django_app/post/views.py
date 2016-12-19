@@ -24,7 +24,7 @@ class PostList(generics.ListCreateAPIView):
     serializer_class = PostSerializer
 
     def get_queryset(self):
-        return self.request.user.post_set.all()
+        return self.request.user.post_set.all().order_by('-created_date')
 
     def get_serializer(self, *args, **kwargs):
         serializer_class = self.get_serializer_class()
