@@ -239,7 +239,7 @@ class PickTodayPhoto(APIView):
             serializer.is_valid(raise_exception=True)
             post = serializer.save(author=request.user)
             Photo.objects.create(post=post, image=image.image)
-
+            self.request.user.post_set.all().order_by('-created_date')
             recently_3photo = Today3photo.objects.last()
             select_count = recently_3photo.photo1.select_count\
                 + recently_3photo.photo2.select_count\
@@ -257,11 +257,10 @@ class ZipAndSendMail(APIView):
     def get(self, request):
         '''
         해당 url로 접속하면 해더에 있는
-        토큰을 가진 유저의 마지막 사진 10개를 압축한다음
+        토큰을 가진 유저의 마지막 사진부터 x개를 압축한다음
         S3에 업로드 한다.
         그후 업로드된 파일의 주소를 해당 유저의 이메일로 보내준다.
         '''
-
         image_list = []
         number = int(request.query_params['number'])
         for i in Photo.objects.filter(post__author=request.user.id).reverse()[:number]:
@@ -293,5 +292,5 @@ class ZipAndSendMail(APIView):
             )
             email.send()
         except Exception as e:
-            raise APIException({"detail":e.args})
+            raise APIException({"detail": e.args})
         return Response("압축 후 메일 보내기에 성공했습니다.", status=status.HTTP_200_OK)
