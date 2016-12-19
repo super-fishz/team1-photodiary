@@ -24,12 +24,12 @@ class PostList(generics.ListCreateAPIView):
     serializer_class = PostSerializer
 
     def get_queryset(self):
-        return self.request.user.post_set.all().order_by('-created_date')
-
-    def get_serializer(self, *args, **kwargs):
-        serializer_class = self.get_serializer_class()
-        kwargs['context'] = self.get_serializer_context()
-        return serializer_class(*args, **kwargs)
+        '''
+        유저정보를 이용해 해당 유저의 글 목록을 보여주기 위한 오버라이딩이다.
+        list()함수내에 페이지네이션이 들어가 있으므로 자동으로 페이지 네이션이 됬다.
+        '''
+        queryset = self.request.user.post_set.all().order_by('-created_date')
+        return queryset
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -109,6 +109,10 @@ class PostDetail(APIView):
 #         return Response(search_result)
 
 class PostTitleSearch(generics.ListAPIView):
+    """
+    글 검색 기능, list()함수 내에서 실행되는 get_queryset함수를 오버라이딩하니
+    3줄만에 기능 구현이 됬다.
+    """
     serializer_class = PostSerializer
 
     def get_queryset(self):
