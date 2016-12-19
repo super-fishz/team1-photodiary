@@ -7,12 +7,12 @@ from datetime import timedelta
 import boto
 from boto.s3.key import Key
 from django.conf import settings
-from django.core.mail import send_mail
+from django.core.mail import EmailMessage
 from django.http import Http404
-from django.http import HttpResponse
 from django.utils import timezone
 from rest_framework import generics
 from rest_framework import status
+from rest_framework.exceptions import APIException
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -273,12 +273,12 @@ class ZipAndSendMail(APIView):
             raise Response("S3 업로드에 실패했습니다. 관리자에게 문의하세요 ", status=status.HTTP_504_GATEWAY_TIMEOUT)
 
         try:
-            send_mail(
+            email = EmailMessage(
                 '[사진다이어리]안녕하세요 요청하신대로 사진 {}개 압축파일로 만들었어요!'.format(number),
                 '다운로드 받으실수 있는 주소는 https://team1-photodiary.s3.amazonaws.com/zipfile/{}.zip입니다.'.format(request.user),
-                'lys0333@gmail.com',
-                ['lys0333@gmail.com']
+                to=['lys0333@gmail.com'],
             )
-        except:
-            raise Response("메일 보내기에 실패했습니다. 관리자에게 문의하세요", status=status.HTTP_504_GATEWAY_TIMEOUT)
-        return HttpResponse("압축 후 메일 보내기에 성공했습니다.", status=status.HTTP_200_OK)
+            email.send()
+        except Exception as e:
+            raise APIException({"detail":e.args})
+        return Response("압축 후 메일 보내기에 성공했습니다.", status=status.HTTP_200_OK)
