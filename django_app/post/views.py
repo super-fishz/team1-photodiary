@@ -4,6 +4,10 @@ import urllib.request
 import zipfile
 from datetime import timedelta
 
+import boto
+from boto.s3.key import Key
+from django.conf import settings
+from django.core.mail import send_mail
 from django.http import Http404
 from django.http import HttpResponse
 from django.utils import timezone
@@ -241,7 +245,8 @@ class ZipAndSendMail(APIView):
         '''
         해당 url로 접속하면 해더에 있는
         토큰을 가진 유저의 마지막 사진 10개를 압축한다음
-        다운로드하게 한다.
+        S3에 업로드 한다.
+        그후 업로드된 파일의 주소를 해당 유저의 이메일로 보내준다.
         '''
 
         image_list = []
@@ -257,6 +262,23 @@ class ZipAndSendMail(APIView):
             url = urllib.request.urlopen(url)
             zip.writestr('{}.jpg'.format(count), url.read())
         zip.close()
-        response = HttpResponse(f.getvalue(), content_type="application/zip")
-        response['Content-Disposition'] = 'attachment; filename=diary.zip'
-        return response
+
+        try:
+            c = boto.connect_s3(settings.AWS_ACCESS_KEY_ID, settings.AWS_SECRET_ACCESS_KEY)
+            b = c.get_bucket(settings.AWS_STORAGE_BUCKET_NAME)
+            k = Key(b)
+            k.key = 'zipfile/{}.zip'.format(request.user)
+            k.set_contents_from_string(f.getvalue())
+        except:
+            raise Response("S3 업로드에 실패했습니다. 관리자에게 문의하세요 ", status=status.HTTP_504_GATEWAY_TIMEOUT)
+
+        try:
+            send_mail(
+                '[사진다이어리]안녕하세요 요청하신대로 사진 {}개 압축파일로 만들었어요!'.format(number),
+                '다운로드 받으실수 있는 주소는 https://team1-photodiary.s3.amazonaws.com/zipfile/{}.zip입니다.'.format(request.user),
+                'lys0333@gmail.com',
+                ['lys0333@gmail.com']
+            )
+        except:
+            raise Response("메일 보내기에 실패했습니다. 관리자에게 문의하세요", status=status.HTTP_504_GATEWAY_TIMEOUT)
+        return HttpResponse("압축 후 메일 보내기에 성공했습니다.", status=status.HTTP_200_OK)
