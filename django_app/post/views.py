@@ -18,6 +18,7 @@ from rest_framework.views import APIView
 
 from .models import Photo, Post, TodayPhoto, Today3photo, SelectTodayPhoto
 from .serializers import PostSerializer, TodayPhotoSerializer, Today3photoSerializer
+from .permission import Isthatyours
 
 
 class PostList(generics.ListCreateAPIView):
@@ -28,6 +29,8 @@ class PostList(generics.ListCreateAPIView):
         유저정보를 이용해 해당 유저의 글 목록을 보여주기 위한 오버라이딩이다.
         list()함수내에 페이지네이션이 들어가 있으므로 자동으로 페이지 네이션이 됬다.
         '''
+        print(self.request.META)
+        print(self.request.user)
         queryset = self.request.user.post_set.all().order_by('-created_date')
         return queryset
 
@@ -42,7 +45,7 @@ class PostList(generics.ListCreateAPIView):
 
 
 class PostDetail(APIView):
-    # permission_classes = (Isthatyours,)
+    permission_classes = (Isthatyours,)
 
     def get_object(self, post_pk):
         try:
@@ -83,7 +86,6 @@ class PostDetail(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-
 # class PostTitleSearch(APIView):
 #     '''
 #     get요청시 해당 검색어의 제목검색 후
@@ -112,18 +114,38 @@ class PostTitleSearch(generics.ListAPIView):
     """
     글 검색 기능, list()함수 내에서 실행되는 get_queryset함수를 오버라이딩하니
     3줄만에 기능 구현이 됬다.
+
+    self.request.user.post_set.filter
+    500에러남
     """
     serializer_class = PostSerializer
+    #
+    # def get(self, request, *args, **kwargs):
+    #     print('request.META', request.META)
+    #     print('request.user', request.user)
+    #     print('request.META["USER"]', request.META['USER'])
+
 
     def get_queryset(self):
+
+        # print('*'*123)
+        # print(self.request.auth)
+
         search_word = self.request.query_params['title']
+        # print("안녕 ")
+        # queryset = user.post_set.filter(title__contains=search_word)
         queryset = self.request.user.post_set.filter(title__contains=search_word)
+        # queryset = Post.objects.all()
+        # print(queryset)
+        # except Exception as e:
+        #     raise APIException({'error': e})
+        # print("before return")
         return queryset
 
 
 
 class PhotoDetail(APIView):
-    # permission_classes = (Isthatyours,)
+    permission_classes = (Isthatyours,)
 
     def get_post_object(self, post_pk):
         try:
