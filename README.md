@@ -1,6 +1,9 @@
 # team1-photodiary 이유성 임용주
 
 
+깃북 주소 추가:https://www.gitbook.com/book/yusunglee/photodiary/details
+
+
 사진다이어리를 3개월간 학원에서 배운 내용을 복습하는 느낌으로
 최소한의 기능만 들어있는 아주 간단한 어플리케이션을 만들기로 하였다.
 
