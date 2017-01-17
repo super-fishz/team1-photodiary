@@ -9,19 +9,27 @@ from django.utils.translation import ugettext_lazy as _
 class MyUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = MyUser
-        fields = ('username', 'id', 'password', 'email', 'date_joined')
+        fields = ('username', 'id', 'password', 'email', 'date_joined', 'profile_img')
 
     def create(self, validated_data):
         username = validated_data['username']
         email = validated_data['email']
         password = validated_data['password']
-        try:
+        print(validated_data['profile_img'])
+        if validated_data['profile_img']:
+            profile_img = validated_data['profile_img']
             user = MyUser.objects.create(
               username=username,
-              email=email
+              email=email,
+              profile_img=profile_img
             )
-        except Exception as e:
-            raise APIException({"detail": e.args})
+        else:
+            user = MyUser.objects.create(
+                username=username,
+                email=email,
+            )
+        # except Exception as e:
+        #     raise APIException({"detail": e.args})
         user.set_password(password)
         user.save()
         return user
