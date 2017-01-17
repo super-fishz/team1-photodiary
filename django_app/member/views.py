@@ -23,23 +23,22 @@ class CreateUser(generics.ListCreateAPIView):
         result.pop('password')
         return Response(result, status=status.HTTP_201_CREATED)
 
-    # def list(self, request, *args, **kwargs):
-    #     '''
-    #     모든 회원 리스트
-    #     '''
-    #     queryset = self.filter_queryset(self.get_queryset())
-    #     # page = self.paginate_queryset(queryset)
-    #     # # if page is not None:
-    #     # #     serializer = self.get_serializer(page, many=True)
-    #     # #     return self.get_paginated_response(serializer.data)
-    #     serializer = self.get_serializer(queryset, many=True)
-    #     print(serializer.data)
-    #     results = []
-    #     for test in serializer.data:
-    #         result = dict(test)
-    #         result.pop('password')
-    #         results.append(result)
-    #     return Response(results)
+    def list(self, request, *args, **kwargs):
+        '''
+        모든 회원 리스트
+        '''
+        queryset = self.filter_queryset(self.get_queryset())
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        serializer = self.get_serializer(queryset, many=True)
+        results = []
+        for test in serializer.data:
+            result = dict(test)
+            result.pop('password')
+            results.append(result)
+        return Response(results)
 
 
 class DetailUser(generics.UpdateAPIView, APIView):
